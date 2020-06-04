@@ -1,18 +1,24 @@
 export default class Round {
-  constructor() {
+  constructor(isLastRound) {
     this.isFinished = false;
     this.scoreOfThrowing = [];
     this.requiredBonusCount = 0;
+    this.isLastRound = isLastRound;
   }
 
   recordOneThrowing(score) {
     this.scoreOfThrowing[this.scoreOfThrowing.length] = score;
-    if (this.scoreOfThrowing.length === 2) {
+    const strikeNotInLastRound = !this.isLastRound && score === 10;
+    if (strikeNotInLastRound) {
       this.isFinished = true;
+      this.requiredBonusCount = 2;
+      return;
     }
-    if (this.getTotalScore() === 10) {
+    if (!this.isLastRound && this.getTotalScore() === 10) {
       this.requiredBonusCount = 1;
     }
+    const numberOfThrowing = this.scoreOfThrowing.length;
+    this.isFinished = this.isLastRound ? numberOfThrowing === 3 : numberOfThrowing === 2;
   }
 
   getTotalScore() {
