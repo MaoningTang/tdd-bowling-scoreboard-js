@@ -36,3 +36,20 @@ test('should return total score 300 when get total score given 1-9 rounds scored
 
   expect(totalScore).toEqual(300);
 });
+
+test('should return total score 87 when get total score given 1-9 rounds scored 8 points each and 3 throwing of the 10th round scored 5 points each', () => {
+  const scoreForEachThrowing = 4;
+  const numberOfThrowing = 18;
+  const scoreForLastThreeThrowing = 5;
+  const scoreboard = new Scoreboard();
+  for (let i = 0; i < numberOfThrowing; i += 1) {
+    scoreboard.recordOneThrowing(scoreForEachThrowing);
+  }
+  for (let i = 0; i < 3; i += 1) {
+    scoreboard.recordOneThrowing(scoreForLastThreeThrowing);
+  }
+
+  const totalScore = scoreboard.getTotalScore();
+
+  expect(totalScore).toEqual(87);
+});
